@@ -2,7 +2,9 @@ package controllers
 
 import (
 	"encoding/json"
+	"math/rand"
 	"net/http"
+	"strconv"
 
 	"github.com/gorilla/mux"
 	"github.com/vincentwijaya/go-api/models"
@@ -31,7 +33,7 @@ func (c BookController) GetBooks(w http.ResponseWriter, r *http.Request) {
 	json.NewEncoder(w).Encode(books)
 }
 
-// Get single book
+// GetBook func
 func (c BookController) GetBook(w http.ResponseWriter, r *http.Request) {
 	w.Header().Set("Content-Type", "application/json")
 	params := mux.Vars(r) // Get params
@@ -45,4 +47,14 @@ func (c BookController) GetBook(w http.ResponseWriter, r *http.Request) {
 	}
 
 	json.NewEncoder(w).Encode(&models.Book{})
+}
+
+// CreateBook func
+func (c BookController) CreateBook(w http.ResponseWriter, r *http.Request) {
+	w.Header().Set("Content-Type", "application/json")
+	var book models.Book
+	_ = json.NewDecoder(r.Body).Decode(&book)
+	book.ID = strconv.Itoa(rand.Intn(10000000)) // Mock Id
+	books = append(books, book)
+	json.NewEncoder(w).Encode(book)
 }
