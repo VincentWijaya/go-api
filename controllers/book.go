@@ -58,3 +58,24 @@ func (c BookController) CreateBook(w http.ResponseWriter, r *http.Request) {
 	books = append(books, book)
 	json.NewEncoder(w).Encode(book)
 }
+
+// UpdateBook func
+func (c BookController) UpdateBook(w http.ResponseWriter, r *http.Request) {
+	w.Header().Set("Content-Type", "application/json")
+	params := mux.Vars(r) // Get params
+
+	// Loop through books and find the id
+	for index, item := range books {
+		if item.ID == params["id"] {
+			books = append(books[:index], books[index+1:]...)
+			var book models.Book
+			_ = json.NewDecoder(r.Body).Decode(&book)
+			book.ID = params["id"]
+			books = append(books, book)
+			json.NewEncoder(w).Encode(book)
+			return
+		}
+	}
+
+	json.NewEncoder(w).Encode(books)
+}
