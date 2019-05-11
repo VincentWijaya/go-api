@@ -79,3 +79,19 @@ func (c BookController) UpdateBook(w http.ResponseWriter, r *http.Request) {
 
 	json.NewEncoder(w).Encode(books)
 }
+
+// DeleteBook func
+func (c BookController) DeleteBook(w http.ResponseWriter, r *http.Request) {
+	w.Header().Set("Content-Type", "application/json")
+	params := mux.Vars(r) // Get params
+
+	// Loop through books and find the id
+	for index, item := range books {
+		if item.ID == params["id"] {
+			books = append(books[:index], books[index+1:]...)
+			break
+		}
+	}
+
+	json.NewEncoder(w).Encode(books)
+}

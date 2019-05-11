@@ -20,6 +20,7 @@ func main() {
 	r.HandleFunc("/api/books/{id}", book.GetBook).Methods("GET")
 	r.HandleFunc("/api/books", book.CreateBook).Methods("POST")
 	r.HandleFunc("/api/books/{id}", book.UpdateBook).Methods("PUT")
+	r.HandleFunc("/api/books/{id}", book.DeleteBook).Methods("DELETE")
 
 	log.Printf("Running on Port 3000")
 	log.Fatal(http.ListenAndServe(":3000", r))
